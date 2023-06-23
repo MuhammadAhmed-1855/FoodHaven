@@ -33,6 +33,7 @@ class RegisteredUserController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
+            'role'=> ['required'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
@@ -42,10 +43,33 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        event(new Registered($user));
+        // Assigning role to user
+        if($request->role == 'driver')
+        {
+            $user->assignRole('driver');
+            event(new Registered($user));
 
-        Auth::login($user);
+            Auth::login($user);
+    
+            return redirect(RouteServiceProvider::HOME_DRIVER);
+        }
+        elseif($request->role == 'customer')
+        {
+            $user->assignRole('customer');
+            event(new Registered($user));
 
-        return redirect(RouteServiceProvider::HOME);
+            Auth::login($user);
+    
+            return redirect(RouteServiceProvider::HOME_CUSTOMER);
+        }
+        elseif($request->role == 'cook')
+        {
+            $user->assignRole('cook');
+            event(new Registered($user));
+
+            Auth::login($user);
+    
+            return redirect(RouteServiceProvider::HOME_COOK);
+        }
     }
 }

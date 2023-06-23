@@ -22,6 +22,22 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('/admin/dashboard', function () {
+    return view('admin/dashboard');
+})->middleware(['auth', 'verified'])->name('admin/dashboard');
+
+Route::get('/driver/dashboard', function () {
+    return view('driver/dashboard');
+})->middleware(['auth', 'verified'])->name('driver/dashboard');
+
+Route::get('/cook/dashboard', function () {
+    return view('cook/dashboard');
+})->middleware(['auth', 'verified'])->name('cook/dashboard');
+
+Route::get('/customer/dashboard', function () {
+    return view('customer/dashboard');
+})->middleware(['auth', 'verified'])->name('customer/dashboard');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
