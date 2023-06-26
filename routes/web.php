@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FoodItemController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -43,5 +44,11 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::get('/cook/addFoodItem', function () {
+    return view('cook/addFoodItem');
+})->middleware(['auth', 'verified'])->name('cook/addFoodItem');
+
+Route::post('/AddFood', [FoodItemController::class, 'store'])->middleware(['auth', 'verified'])->name('AddFood');
 
 require __DIR__.'/auth.php';

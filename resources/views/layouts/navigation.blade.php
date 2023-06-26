@@ -81,6 +81,12 @@
                             {{ __('Profile') }}
                         </x-dropdown-link>
 
+                        @if (Auth::user()->hasRole('cook') == 1)
+                            <x-dropdown-link :href="route('cook/addFoodItem')">
+                                {{ __('Add Food Item') }}
+                            </x-dropdown-link>
+                        @endif
+
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
@@ -146,6 +152,13 @@
                 <x-responsive-nav-link :href="route('profile.edit')">
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
+
+                @if (Auth::user()->hasRole('cook') == 1)
+                    <x-responsive-nav-link :href="route('AddFood')">
+                        {{ __('Add Food Item') }}
+                    </x-responsive-nav-link>
+
+                @endif
 
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
