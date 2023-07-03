@@ -30,8 +30,6 @@ class FoodItemController extends Controller
 
         $foodItem->save();
 
-        print_r($foodItem);
-
-        // return redirect()->route('cook/dashboard');
+        return redirect()->route('cook/dashboard');
     }
 }
