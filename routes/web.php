@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\FoodItemController;
 use App\Http\Controllers\ProfileController;
+use App\Models\FoodItem;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -50,5 +51,9 @@ Route::get('/cook/addFoodItem', function () {
 })->middleware(['auth', 'verified'])->name('cook/addFoodItem');
 
 Route::post('/AddFood', [FoodItemController::class, 'store'])->middleware(['auth', 'verified'])->name('AddFood');
+
+Route::get('/customer/foodItems', [FoodItemController::class, 'foodItems'])->middleware(['auth', 'verified'])->name('customer/foodItems');
+
+Route::post('/customer/addToCart', [FoodItemController::class, 'addToCart'])->middleware(['auth', 'verified'])->name('customer/addToCart');
 
 require __DIR__.'/auth.php';

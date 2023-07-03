@@ -32,4 +32,17 @@ class FoodItemController extends Controller
 
         return redirect()->route('cook/dashboard');
     }
+
+    public function foodItems() {
+        $foodItems = FoodItem::all();
+        return view('customer/foodItems', ['foodItems' => $foodItems]);
+    }
+
+    public function addToCart(Request $req) {
+        $foodId = $req->input('food_id');
+        $customerId = $req->input('customer_id');
+        $quantity = $req->input('quantity');
+
+
+    }
 }

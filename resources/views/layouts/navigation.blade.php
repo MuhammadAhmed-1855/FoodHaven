@@ -87,6 +87,12 @@
                             </x-dropdown-link>
                         @endif
 
+                        @if (Auth::user()->hasRole('customer') == 1)
+                            <x-dropdown-link :href="route('customer/foodItems')">
+                                {{ __('FoodHaven List') }}
+                            </x-dropdown-link>
+                        @endif
+
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
