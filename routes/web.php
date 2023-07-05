@@ -56,4 +56,8 @@ Route::get('/customer/foodItems', [FoodItemController::class, 'foodItems'])->mid
 
 Route::post('/customer/addToCart', [FoodItemController::class, 'addToCart'])->middleware(['auth', 'verified'])->name('customer/addToCart');
 
+Route::get('/customer/cart', [FoodItemController::class, 'cart'])->middleware(['auth', 'verified'])->name('customer/cart');
+
+Route::post('/customer/removeCartItem', [FoodItemController::class, 'removeCartItem'])->middleware(['auth', 'verified'])->name('customer/removeCartItem');
+
 require __DIR__.'/auth.php';

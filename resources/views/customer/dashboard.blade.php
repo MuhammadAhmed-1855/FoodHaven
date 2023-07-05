@@ -15,7 +15,4 @@
         </div>
     </div>
 
-    {{-- Showing all Food Items in database --}}
-    
-
 </x-app-layout>

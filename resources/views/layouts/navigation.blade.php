@@ -91,6 +91,10 @@
                             <x-dropdown-link :href="route('customer/foodItems')">
                                 {{ __('FoodHaven List') }}
                             </x-dropdown-link>
+
+                            <x-dropdown-link :href="route('customer/cart')">
+                                {{ __('Cart') }}
+                            </x-dropdown-link>
                         @endif
 
                         <!-- Authentication -->

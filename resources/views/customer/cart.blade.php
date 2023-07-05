@@ -1,0 +1,67 @@
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="text-xl font-semibold leading-tight text-gray-800">
+            {{ __('Cart') }}
+        </h2>
+    </x-slot>
+
+    <div class="py-12">
+        <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
+            <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product Name</th>
+                            <th>Product Image</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach ($cartItems as $cartItem) {
+                            <tr>
+                                <td>{{ $cartItem->name }}</td>
+                                <td>
+                                    <img src="{{ asset($cartItem->options->image) }}" alt="{{ $cartItem->name }}">
+                                </td>
+                                <td>{{ $cartItem->qty }}</td>
+                                <td>{{ $cartItem->price }}</td>
+                                <td>
+                                    <form method="POST" action="{{ route('customer/removeCartItem') }}">
+                                        @csrf
+                                        <input type="hidden" name="rowId" value="{{ $cartItem->rowId }}">
+                                        <x-primary-button class="ml-4">
+                                            {{ __('Remove') }}
+                                        </x-primary-button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                            
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</x-app-layout>
+
+<style>
+    tr {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        align-items: center;
+        justify-items: center;
+    }
+    img {
+        width: 100px;
+        height: 100px;
+    }
+    input {
+        width: 50px;
+        height: 50px;
+    }
+</style>
