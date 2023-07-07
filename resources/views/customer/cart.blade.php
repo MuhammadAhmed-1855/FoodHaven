@@ -63,7 +63,7 @@
 
                         <tr class="Checkout">
                             <td>
-                                <form method="POST" action="">
+                                <form method="GET" action=" {{ route('customer/payment') }}">
                                     @csrf
                                     <x-primary-button class="ml-4">
                                         {{ __('Checkout') }}

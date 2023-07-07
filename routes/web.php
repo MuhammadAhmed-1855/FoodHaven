@@ -3,6 +3,7 @@
 use App\Http\Controllers\FoodItemController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -59,5 +60,9 @@ Route::post('/customer/addToCart', [CartController::class, 'addToCart'])->middle
 Route::get('/customer/cart', [CartController::class, 'cart'])->middleware(['auth', 'verified'])->name('customer/cart');
 
 Route::post('/customer/removeCartItem', [CartController::class, 'removeCartItem'])->middleware(['auth', 'verified'])->name('customer/removeCartItem');
+
+Route::get('/customer/payment', [PaymentController::class, 'checkout'])->middleware(['auth', 'verified'])->name('customer/payment');
+
+Route::get('/customer/paid', [PaymentController::class, 'success'])->middleware(['auth', 'verified'])->name('customer/paid');
 
 require __DIR__.'/auth.php';

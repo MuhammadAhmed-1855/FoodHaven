@@ -33,4 +33,5 @@
             </main>
         </div>
     </body>
+    <script src="{{ asset('vendor/lottie/app.js') }}" defer></script>
 </html>
