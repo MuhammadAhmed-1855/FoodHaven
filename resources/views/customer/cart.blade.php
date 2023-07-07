@@ -20,57 +20,64 @@
                     </thead>
 
                     <tbody>
-                        @foreach ($cartItems as $cartItem) 
+                        {{-- If there are no cartItems --}}
+                        @if (Cart::count() == 0)
                             <tr>
-                                <td>{{ $cartItem->name }}</td>
+                                <td colspan="5">No items in cart.</td>
+                            </tr>
+                        @else
+                            @foreach ($cartItems as $cartItem) 
+                                <tr>
+                                    <td>{{ $cartItem->name }}</td>
+                                    <td>
+                                        <img src="{{ asset($cartItem->options->image) }}" alt="{{ $cartItem->name }}">
+                                    </td>
+                                    <td>{{ $cartItem->qty }}</td>
+                                    <td>{{ $cartItem->price }}</td>
+                                    <td>
+                                        <form method="POST" action="{{ route('customer/removeCartItem') }}">
+                                            @csrf
+                                            <input type="hidden" name="rowId" value="{{ $cartItem->rowId }}">
+                                            <x-primary-button class="ml-4">
+                                                {{ __('Remove') }}
+                                            </x-primary-button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            
+                            <tr class="Checkout">
+                                <th>SubTotal:</th>
+                                <td>{{ Cart::subtotal() }}</td>
+                            </tr>
+                            
+                            <tr class="Checkout">
+                                <th>Tax:</th>
+                                {{ Cart::addCost('PK Tax', .17*Cart::subtotal()) }}
+                                <td>{{ .17*Cart::subtotal() }}</td>
+                            </tr>
+
+                            <tr class="Checkout">
+                                <th>Discounted Cost:</th>
+                                <td>{{ Cart::tax() }}</td>
+                            </tr>
+
+                            <tr class="Checkout">
+                                <th>Total:</th>
+                                <td>{{ Cart::total() }}</td>
+                            </tr>
+
+                            <tr class="Checkout">
                                 <td>
-                                    <img src="{{ asset($cartItem->options->image) }}" alt="{{ $cartItem->name }}">
-                                </td>
-                                <td>{{ $cartItem->qty }}</td>
-                                <td>{{ $cartItem->price }}</td>
-                                <td>
-                                    <form method="POST" action="{{ route('customer/removeCartItem') }}">
+                                    <form method="GET" action=" {{ route('customer/payment') }}">
                                         @csrf
-                                        <input type="hidden" name="rowId" value="{{ $cartItem->rowId }}">
                                         <x-primary-button class="ml-4">
-                                            {{ __('Remove') }}
+                                            {{ __('Checkout') }}
                                         </x-primary-button>
                                     </form>
                                 </td>
                             </tr>
-                        @endforeach
-                        
-                        <tr class="Checkout">
-                            <th>SubTotal:</th>
-                            <td>{{ Cart::subtotal() }}</td>
-                        </tr>
-                        
-                        <tr class="Checkout">
-                            <th>Tax:</th>
-                            {{ Cart::addCost('PK Tax', .17*Cart::subtotal()) }}
-                            <td>{{ .17*Cart::subtotal() }}</td>
-                        </tr>
-
-                        <tr class="Checkout">
-                            <th>Additional Cost:</th>
-                            <td>{{ Cart::tax() }}</td>
-                        </tr>
-
-                        <tr class="Checkout">
-                            <th>Total:</th>
-                            <td>{{ Cart::total() }}</td>
-                        </tr>
-
-                        <tr class="Checkout">
-                            <td>
-                                <form method="GET" action=" {{ route('customer/payment') }}">
-                                    @csrf
-                                    <x-primary-button class="ml-4">
-                                        {{ __('Checkout') }}
-                                    </x-primary-button>
-                                </form>
-                            </td>
-                        </tr>
+                        @endif
                     </tbody>
                 </table>
             </div>

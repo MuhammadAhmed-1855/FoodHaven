@@ -18,6 +18,7 @@ class PaymentController extends Controller
         $line_items = [];
 
         foreach ($cartItems as $item) {
+            $taxAmount = $item->price * 0.17;
             $line_items[] = [
                 'price_data' => [
                     'currency' => 'pkr',
@@ -25,7 +26,7 @@ class PaymentController extends Controller
                         'name' => $item->name,
                         'image' => $item->image,
                     ],
-                    'unit_amount' => $item->price*100,
+                    'unit_amount' => ($item->price + $taxAmount) * 100,
                 ],
                 'quantity' => $item->qty,
             ];
@@ -34,7 +35,7 @@ class PaymentController extends Controller
         $checkoutSession = \Stripe\Checkout\Session::create([
             'line_items' => $line_items,
             'mode' => 'payment',
-            'success_url' => 'http://127.0.0.1:8000/customer/paid',
+            'success_url' => 'http://127.0.0.1:8000/customer/success',
         ]);
 
         return Redirect::away($checkoutSession->url);
@@ -42,5 +43,6 @@ class PaymentController extends Controller
 
     public function success() {
         Cart::destroy();
+        return view('customer/success');
     }
 }

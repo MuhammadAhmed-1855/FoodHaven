@@ -63,6 +63,6 @@ Route::post('/customer/removeCartItem', [CartController::class, 'removeCartItem'
 
 Route::get('/customer/payment', [PaymentController::class, 'checkout'])->middleware(['auth', 'verified'])->name('customer/payment');
 
-Route::get('/customer/paid', [PaymentController::class, 'success'])->middleware(['auth', 'verified'])->name('customer/paid');
+Route::get('/customer/success', [PaymentController::class, 'success'])->middleware(['auth', 'verified'])->name('customer/success');
 
 require __DIR__.'/auth.php';
