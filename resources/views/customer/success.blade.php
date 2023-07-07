@@ -7,7 +7,7 @@
 
     <div class="py-12">
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <iframe src="https://embed.lottiefiles.com/animation/34109"></iframe>
+            <iframe src="https://embed.lottiefiles.com/animation/116087"></iframe>
         </div>
     </div>
 
