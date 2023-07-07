@@ -20,7 +20,7 @@
                     </thead>
 
                     <tbody>
-                        @foreach ($cartItems as $cartItem) {
+                        @foreach ($cartItems as $cartItem) 
                             <tr>
                                 <td>{{ $cartItem->name }}</td>
                                 <td>
@@ -38,9 +38,39 @@
                                     </form>
                                 </td>
                             </tr>
-                        }
-                            
                         @endforeach
+                        
+                        <tr class="Checkout">
+                            <th>SubTotal:</th>
+                            <td>{{ Cart::subtotal() }}</td>
+                        </tr>
+                        
+                        <tr class="Checkout">
+                            <th>Tax:</th>
+                            {{ Cart::addCost('PK Tax', .17*Cart::subtotal()) }}
+                            <td>{{ .17*Cart::subtotal() }}</td>
+                        </tr>
+
+                        <tr class="Checkout">
+                            <th>Additional Cost:</th>
+                            <td>{{ Cart::tax() }}</td>
+                        </tr>
+
+                        <tr class="Checkout">
+                            <th>Total:</th>
+                            <td>{{ Cart::total() }}</td>
+                        </tr>
+
+                        <tr class="Checkout">
+                            <td>
+                                <form method="POST" action="">
+                                    @csrf
+                                    <x-primary-button class="ml-4">
+                                        {{ __('Checkout') }}
+                                    </x-primary-button>
+                                </form>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -53,6 +83,9 @@
     tr {
         display: grid;
         grid-template-columns: repeat(5, 1fr);
+        padding-left: 2em;
+        padding-bottom: 2em;
+        column-gap: 8em;
         align-items: center;
         justify-items: center;
     }
@@ -63,5 +96,12 @@
     input {
         width: 50px;
         height: 50px;
+    }
+    thead tr {
+        padding-top: 2em;
+    }
+    .Checkout {
+        display: flex;
+        justify-content: flex-end;
     }
 </style>

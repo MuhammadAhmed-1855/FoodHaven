@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\FoodItemController;
 use App\Http\Controllers\ProfileController;
-use App\Models\FoodItem;
+use App\Http\Controllers\CartController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -54,10 +54,10 @@ Route::post('/AddFood', [FoodItemController::class, 'store'])->middleware(['auth
 
 Route::get('/customer/foodItems', [FoodItemController::class, 'foodItems'])->middleware(['auth', 'verified'])->name('customer/foodItems');
 
-Route::post('/customer/addToCart', [FoodItemController::class, 'addToCart'])->middleware(['auth', 'verified'])->name('customer/addToCart');
+Route::post('/customer/addToCart', [CartController::class, 'addToCart'])->middleware(['auth', 'verified'])->name('customer/addToCart');
 
-Route::get('/customer/cart', [FoodItemController::class, 'cart'])->middleware(['auth', 'verified'])->name('customer/cart');
+Route::get('/customer/cart', [CartController::class, 'cart'])->middleware(['auth', 'verified'])->name('customer/cart');
 
-Route::post('/customer/removeCartItem', [FoodItemController::class, 'removeCartItem'])->middleware(['auth', 'verified'])->name('customer/removeCartItem');
+Route::post('/customer/removeCartItem', [CartController::class, 'removeCartItem'])->middleware(['auth', 'verified'])->name('customer/removeCartItem');
 
 require __DIR__.'/auth.php';
