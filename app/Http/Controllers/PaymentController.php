@@ -24,9 +24,14 @@ class PaymentController extends Controller
         foreach ($cartItems as $item) {
 
             $options = $item->options;
-            $image = $options->image;
+            $foodItem = FoodItem::find($options->id);
+            $cook = User::find($foodItem->user_id);
+            echo "<br>";
+            echo $cook;
+            $stripeAccount = $cook->stripe_account_id;
 
             $unit_amount = ceil($item->price * 1.17);
+            echo "<br>";
             echo $unit_amount;
             echo "<br>";
 
@@ -47,8 +52,16 @@ class PaymentController extends Controller
         echo $platformfee;
         echo json_encode($line_items);
 
+
+
         $session = \Stripe\Checkout\Session::create([
             'line_items' => $line_items,
+            'payment_intent_data' => [
+                'application_fee_amount' => $platformfee * 100,
+                'transfer_data' => [
+                    'destination' => $stripeAccount,
+                ],
+            ],
             'mode' => 'payment',
             'success_url' => 'http://127.0.0.1:8000/customer/success',
         ]);
@@ -82,6 +95,8 @@ class PaymentController extends Controller
 
         $user = User::find(auth()->user()->id);
         $user->stripe_account_id = $account->id;
+
+        $user->save();
 
         return Redirect::away($accountLinks->url);
     }
