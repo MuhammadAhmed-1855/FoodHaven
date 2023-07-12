@@ -50,16 +50,11 @@
                                 <th>SubTotal:</th>
                                 <td>{{ Cart::subtotal() }}</td>
                             </tr>
-                            
-                            <tr class="Checkout">
-                                <th>Tax:</th>
-                                {{ Cart::addCost('PK Tax', .17*Cart::subtotal()) }}
-                                <td>{{ .17*Cart::subtotal() }}</td>
-                            </tr>
 
                             <tr class="Checkout">
-                                <th>Discounted Cost:</th>
+                                <th>Tax:</th>
                                 <td>{{ Cart::tax() }}</td>
+
                             </tr>
 
                             <tr class="Checkout">

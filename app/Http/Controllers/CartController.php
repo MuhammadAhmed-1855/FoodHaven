@@ -18,7 +18,10 @@ class CartController extends Controller
 
         $id = uniqid();
 
-        $cartItem = Cart::add($customerId, $foodItem->name, $quantity, $foodItem->price, ['image' => $foodItem->image])->associate('FoodItem');
+        $cartItem = Cart::add($customerId, $foodItem->name, $quantity, $foodItem->price, [
+            'image' => $foodItem->image,
+            'id' => $foodId,
+        ])->associate('FoodItem');
 
         Cart::store($id);
 

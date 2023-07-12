@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use Stripe\StripeClient;
+use Illuminate\Support\Facades\Redirect;
 
 class RegisteredUserController extends Controller
 {
@@ -28,7 +30,7 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request) 
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -43,12 +45,10 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        // Assigning role to user
         if($request->role == 'driver')
         {
             $user->assignRole('driver');
             event(new Registered($user));
-
             Auth::login($user);
     
             return redirect(RouteServiceProvider::HOME_DRIVER);
@@ -57,7 +57,6 @@ class RegisteredUserController extends Controller
         {
             $user->assignRole('customer');
             event(new Registered($user));
-
             Auth::login($user);
     
             return redirect(RouteServiceProvider::HOME_CUSTOMER);
@@ -66,7 +65,6 @@ class RegisteredUserController extends Controller
         {
             $user->assignRole('cook');
             event(new Registered($user));
-
             Auth::login($user);
     
             return redirect(RouteServiceProvider::HOME_COOK);

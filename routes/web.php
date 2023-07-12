@@ -65,4 +65,10 @@ Route::get('/customer/payment', [PaymentController::class, 'checkout'])->middlew
 
 Route::get('/customer/success', [PaymentController::class, 'success'])->middleware(['auth', 'verified'])->name('customer/success');
 
+Route::get('/cook/addStripe', [PaymentController::class, 'addStripe'])->middleware(['auth', 'verified'])->name('cook/addStripe');
+
+Route::get('/cook/success', function () {
+    return view('cook/success');
+})->middleware(['auth', 'verified'])->name('cook/success');
+
 require __DIR__.'/auth.php';

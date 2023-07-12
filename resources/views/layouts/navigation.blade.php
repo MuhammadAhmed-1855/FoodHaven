@@ -85,6 +85,10 @@
                             <x-dropdown-link :href="route('cook/addFoodItem')">
                                 {{ __('Add Food Item') }}
                             </x-dropdown-link>
+
+                            <x-dropdown-link :href="route('cook/addStripe')">
+                                {{ __('Add Stripe Account') }}
+                            </x-dropdown-link>
                         @endif
 
                         @if (Auth::user()->hasRole('customer') == 1)
