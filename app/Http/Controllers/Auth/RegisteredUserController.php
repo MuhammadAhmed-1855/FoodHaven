@@ -69,5 +69,9 @@ class RegisteredUserController extends Controller
     
             return redirect(RouteServiceProvider::HOME_COOK);
         }
+        else
+        {
+            return redirect(RouteServiceProvider::SET_ROLE);
+        }
     }
 }

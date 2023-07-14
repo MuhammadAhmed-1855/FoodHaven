@@ -43,6 +43,9 @@ class AuthenticatedSessionController extends Controller
         else if (Auth::user()->hasRole('driver') == 1) {
             return redirect()->intended(RouteServiceProvider::HOME_DRIVER);
         }
+        else {
+            return redirect()->intended(RouteServiceProvider::SET_ROLE);
+        }
 
         // return redirect()->intended(RouteServiceProvider::HOME);
     }

@@ -71,4 +71,14 @@ Route::get('/cook/success', function () {
     return view('cook/success');
 })->middleware(['auth', 'verified'])->name('cook/success');
 
+Route::get('/auth/google/redirect', [ProfileController::class, 'redirect'])->name('auth/google/redirect');
+
+Route::get('/auth/google/callback', [ProfileController::class, 'callback'])->name('auth/google/callback');
+
+Route::get('/role', function() {
+    return view('role');
+})->name('role');
+
+Route::post('addRole', [ProfileController::class, 'addRole'])->name('addRole');
+
 require __DIR__.'/auth.php';
