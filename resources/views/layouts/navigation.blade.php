@@ -91,6 +91,12 @@
                             </x-dropdown-link>
                         @endif
 
+                        @if (Auth::user()->hasRole('admin') == 1)
+                            <x-dropdown-link :href="route('admin/analysis')">
+                                {{ __('Analysis') }}
+                            </x-dropdown-link>
+                        @endif
+
                         @if (Auth::user()->hasRole('customer') == 1)
                             <x-dropdown-link :href="route('customer/foodItems')">
                                 {{ __('FoodHaven List') }}

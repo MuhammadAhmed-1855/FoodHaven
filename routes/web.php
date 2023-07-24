@@ -1,10 +1,33 @@
 <?php
 
-use App\Http\Controllers\FoodItemController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Route;
+
+//Profile Controllers
+use App\Http\Controllers\Profile\EditProfileController;
+use App\Http\Controllers\Profile\UpdateProfileController;
+use App\Http\Controllers\Profile\DestroyProfileController;
+
+//Google Authentication Controllers
+use App\Http\Controllers\ThirdParty\GoogleAuthentication\AnalysisController;
+use App\Http\Controllers\ThirdParty\GoogleAuthentication\CallbackController;
+use App\Http\Controllers\ThirdParty\GoogleAuthentication\RedirectController;
+use App\Http\Controllers\ThirdParty\GoogleAuthentication\AddRoleController;
+
+//Food Item Controllers
+use App\Http\Controllers\FoodItem\ReturnItemsController;
+use App\Http\Controllers\FoodItem\CreateItemController;
+
+//Stripe Payment Controllers
+use App\Http\Controllers\ThirdParty\StripePayment\CheckoutController;
+use App\Http\Controllers\ThirdParty\StripePayment\AddAccountController;
+use App\Http\Controllers\ThirdParty\StripePayment\SuccessController;
+
+//Cart Controllers
+use App\Http\Controllers\Cart\AddItemController;
+use App\Http\Controllers\Cart\RemoveItemController;
+use App\Http\Controllers\Cart\ReturnCartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,43 +65,45 @@ Route::get('/customer/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('customer/dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/profile', [EditProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [UpdateProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [DestroyProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 Route::get('/cook/addFoodItem', function () {
     return view('cook/addFoodItem');
 })->middleware(['auth', 'verified'])->name('cook/addFoodItem');
 
-Route::post('/AddFood', [FoodItemController::class, 'store'])->middleware(['auth', 'verified'])->name('AddFood');
+Route::post('/AddFood', [CreateItemController::class, 'store'])->middleware(['auth', 'verified'])->name('AddFood');
 
-Route::get('/customer/foodItems', [FoodItemController::class, 'foodItems'])->middleware(['auth', 'verified'])->name('customer/foodItems');
+Route::get('/customer/foodItems', [ReturnItemsController::class, 'foodItems'])->middleware(['auth', 'verified'])->name('customer/foodItems');
 
-Route::post('/customer/addToCart', [CartController::class, 'addToCart'])->middleware(['auth', 'verified'])->name('customer/addToCart');
+Route::post('/customer/addToCart', [AddItemController::class, 'addToCart'])->middleware(['auth', 'verified'])->name('customer/addToCart');
 
-Route::get('/customer/cart', [CartController::class, 'cart'])->middleware(['auth', 'verified'])->name('customer/cart');
+Route::get('/customer/cart', [ReturnCartController::class, 'cart'])->middleware(['auth', 'verified'])->name('customer/cart');
 
-Route::post('/customer/removeCartItem', [CartController::class, 'removeCartItem'])->middleware(['auth', 'verified'])->name('customer/removeCartItem');
+Route::post('/customer/removeCartItem', [RemoveItemController::class, 'removeCartItem'])->middleware(['auth', 'verified'])->name('customer/removeCartItem');
 
-Route::get('/customer/payment', [PaymentController::class, 'checkout'])->middleware(['auth', 'verified'])->name('customer/payment');
+Route::get('/customer/payment', [CheckoutController::class, 'checkout'])->middleware(['auth', 'verified'])->name('customer/payment');
 
-Route::get('/customer/success', [PaymentController::class, 'success'])->middleware(['auth', 'verified'])->name('customer/success');
+Route::get('/customer/success', [SuccessController::class, 'success'])->middleware(['auth', 'verified'])->name('customer/success');
 
-Route::get('/cook/addStripe', [PaymentController::class, 'addStripe'])->middleware(['auth', 'verified'])->name('cook/addStripe');
+Route::get('/cook/addStripe', [AddAccountController::class, 'addStripe'])->middleware(['auth', 'verified'])->name('cook/addStripe');
 
 Route::get('/cook/success', function () {
     return view('cook/success');
 })->middleware(['auth', 'verified'])->name('cook/success');
 
-Route::get('/auth/google/redirect', [ProfileController::class, 'redirect'])->name('auth/google/redirect');
+Route::get('/auth/google/redirect', [RedirectController::class, 'redirect'])->name('auth/google/redirect');
 
-Route::get('/auth/google/callback', [ProfileController::class, 'callback'])->name('auth/google/callback');
+Route::get('/auth/google/callback', [CallbackController::class, 'callback'])->name('auth/google/callback');
 
 Route::get('/role', function() {
     return view('role');
 })->name('role');
 
-Route::post('addRole', [ProfileController::class, 'addRole'])->name('addRole');
+Route::post('addRole', [AddRoleController::class, 'addRole'])->name('addRole');
+
+Route::get('/admin/analysis', [AnalysisController::class, 'analysis'])->middleware(['auth', 'verified'])->name('admin/analysis');
 
 require __DIR__.'/auth.php';

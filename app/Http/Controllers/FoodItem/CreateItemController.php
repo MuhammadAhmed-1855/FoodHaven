@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\FoodItem;
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Models\FoodItem;
+use Illuminate\Http\Request;
 
-class FoodItemController extends Controller
+class CreateItemController extends Controller
 {
-    //
-    public function store(Request $req) {
+    public function store(Request $req)
+    {
         $foodItem = new FoodItem;
         $foodItem->name = $req->name;
         $foodItem->description = $req->description;
@@ -32,9 +33,6 @@ class FoodItemController extends Controller
 
         return redirect()->route('cook/dashboard');
     }
-
-    public function foodItems() {
-        $foodItems = FoodItem::all();
-        return view('customer/foodItems', ['foodItems' => $foodItems]);
-    }
 }
+
+?>

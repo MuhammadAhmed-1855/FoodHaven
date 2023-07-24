@@ -1,21 +1,24 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\ThirdParty\StripePayment;
 
-use Gloudemans\Shoppingcart\Facades\Cart;
-use Illuminate\Support\Facades\Redirect;
+use App\Http\Controllers\Controller;
 use App\Models\FoodItem;
 use App\Models\User;
-use Stripe\Stripe;
+use Gloudemans\Shoppingcart\Facades\Cart;
+use Illuminate\Support\Facades\Redirect;
+use Stripe\Stripe as Stripe;
+use Stripe\Checkout\Session as Session;
 
-class PaymentController extends Controller
+class CheckoutController extends Controller
 {
-    public function checkout() {
+    public function checkout()
+    {
         $cartItems = Cart::content();
         
         $sk = env('SK_STRIPE');
 
-        \Stripe\Stripe::setApiKey($sk);
+        Stripe::setApiKey($sk);
         header('Content-Type: application/json');
 
         $line_items = [];
@@ -26,14 +29,8 @@ class PaymentController extends Controller
             $options = $item->options;
             $foodItem = FoodItem::find($options->id);
             $cook = User::find($foodItem->user_id);
-            echo "<br>";
-            echo $cook;
             $stripeAccount = $cook->stripe_account_id;
-
             $unit_amount = ceil($item->price * 1.17);
-            echo "<br>";
-            echo $unit_amount;
-            echo "<br>";
 
             $line_items[] = [
                 'price_data' => [
@@ -49,12 +46,7 @@ class PaymentController extends Controller
             $platformfee += ($item->price * 0.005);
         }
 
-        echo $platformfee;
-        echo json_encode($line_items);
-
-
-
-        $session = \Stripe\Checkout\Session::create([
+        $session = Session::create([
             'line_items' => $line_items,
             'payment_intent_data' => [
                 'application_fee_amount' => $platformfee * 100,
@@ -68,36 +60,6 @@ class PaymentController extends Controller
 
         return Redirect::away($session->url);
     }
-
-    public function success() {
-        Cart::destroy();
-        return view('customer/success');
-    }
-
-    public function addStripe() {
-        echo "Stripe Account";
-
-        $sk = env('SK_STRIPE');
-        \Stripe\Stripe::setApiKey($sk);
-
-        $account = \Stripe\Account::create([
-            'type' => 'express',
-        ]);
-
-        $stripe = new \Stripe\StripeClient($sk);
-
-        $accountLinks = $stripe->accountLinks->create([
-            'account' => $account->id,
-            'refresh_url' => 'http://127.0.0.1:8000/cook/dashboard',
-            'return_url' => 'http://127.0.0.1:8000/cook/success',
-            'type' => 'account_onboarding',
-        ]);
-
-        $user = User::find(auth()->user()->id);
-        $user->stripe_account_id = $account->id;
-
-        $user->save();
-
-        return Redirect::away($accountLinks->url);
-    }
 }
+
+?>

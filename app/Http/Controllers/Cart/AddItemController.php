@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Cart;
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Models\FoodItem;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use Illuminate\Http\Request;
 
-class CartController extends Controller
+class AddItemController extends Controller
 {
-    
     public function addToCart(Request $req) {
         $foodId = $req->input('food_id');
         $customerId = $req->input('customer_id');
@@ -27,17 +27,6 @@ class CartController extends Controller
 
         return redirect()->route('customer/cart');
     }
-
-    public function cart() {
-        // Return all cart items
-        $cartItems = Cart::content();
-        return view('customer/cart', ['cartItems' => $cartItems]);
-    }
-
-    public function removeCartItem(Request $req) {
-        $id = $req->input('rowId');
-        echo $id;
-        Cart::remove($id);
-        return redirect()->route('customer/cart');
-    }
 }
+
+?>
