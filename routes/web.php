@@ -28,6 +28,7 @@ use App\Http\Controllers\ThirdParty\StripePayment\SuccessController;
 use App\Http\Controllers\Cart\AddItemController;
 use App\Http\Controllers\Cart\RemoveItemController;
 use App\Http\Controllers\Cart\ReturnCartController;
+use App\Http\Controllers\FoodItem\FoodItemWEBController;
 
 /*
 |--------------------------------------------------------------------------
@@ -76,7 +77,7 @@ Route::get('/cook/addFoodItem', function () {
 
 Route::post('/AddFood', [CreateItemController::class, 'store'])->middleware(['auth', 'verified'])->name('AddFood');
 
-Route::get('/customer/foodItems', [ReturnItemsController::class, 'foodItems'])->middleware(['auth', 'verified'])->name('customer/foodItems');
+Route::get('/customer/foodItems', [FoodItemWEBController::class, 'getItems'])->middleware(['auth', 'verified'])->name('customer/foodItems');
 
 Route::post('/customer/addToCart', [AddItemController::class, 'addToCart'])->middleware(['auth', 'verified'])->name('customer/addToCart');
 

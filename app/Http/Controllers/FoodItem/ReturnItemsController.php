@@ -10,7 +10,8 @@ class ReturnItemsController extends Controller
     public function foodItems()
     {
         $foodItems = FoodItem::all();
-        return view('customer/foodItems', ['foodItems' => $foodItems]);
+        return($foodItems);
+        // return view('customer/foodItems', ['foodItems' => $foodItems]);
     }
 }
 

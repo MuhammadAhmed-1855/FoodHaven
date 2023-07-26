@@ -13,20 +13,20 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
-    </head>
 
+                <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-YZ3ZPR0KQJ"></script>
         
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YZ3ZPR0KQJ"></script>
-    
-    <script>
+        <script>
         window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             
             gtag('js', new Date());
-    
+
             gtag('config', 'G-YZ3ZPR0KQJ');
-    </script>
+        </script>
+        
+    </head>
 
     <body class="font-sans antialiased text-gray-900">
         <div class="flex flex-col items-center min-h-screen pt-6 bg-gray-100 sm:justify-center sm:pt-0">

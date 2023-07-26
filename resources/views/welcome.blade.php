@@ -17,19 +17,20 @@
                 padding-left: 15px;
             }
         </style>
-    </head>
 
-        <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YZ3ZPR0KQJ"></script>
-    
-    <script>
-    window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+                <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-YZ3ZPR0KQJ"></script>
         
-        gtag('js', new Date());
+        <script>
+        window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            
+            gtag('js', new Date());
 
-        gtag('config', 'G-YZ3ZPR0KQJ');
-    </script>
+            gtag('config', 'G-YZ3ZPR0KQJ');
+        </script>
+        
+    </head>
 
     <body class="antialiased">
         <div class="relative min-h-screen bg-gray-100 bg-center sm:flex sm:justify-center sm:items-center bg-dots-darker dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white">
